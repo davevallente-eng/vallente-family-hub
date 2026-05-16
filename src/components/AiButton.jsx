@@ -1,13 +1,17 @@
+import { useState } from 'react'
 import { Sparkles } from 'lucide-react'
 import { useAiChat } from '../hooks/useAiChat'
 import { useShowToast } from '../context/ToastContext'
+import { AiReplyModal } from './AiReplyModal'
 
 // Reusable "AI suggest" / "AI pick" button. The prototype scatters
-// sendPrompt(...) all over — this is the React equivalent. Pops up the result
-// as an alert for now; later this can open a modal/drawer.
-export function AiButton({ label, prompt, variant = 'primary', className = '' }) {
+// sendPrompt(...) all over — this is the React equivalent. The AI reply
+// renders into a centered markdown modal so bold / lists / headings look
+// proper instead of literal asterisks in a native alert().
+export function AiButton({ label, prompt, variant = 'primary', className = '', modalTitle }) {
   const { ask, loading } = useAiChat()
   const show = useShowToast()
+  const [reply, setReply] = useState(null)
 
   const baseClasses =
     variant === 'primary'
@@ -17,11 +21,9 @@ export function AiButton({ label, prompt, variant = 'primary', className = '' })
   const onClick = async () => {
     show('Asking the AI…')
     try {
-      const reply = await ask(prompt)
-      if (reply) {
-        // Quick MVP: surface the reply in a window.alert so the family can read
-        // the full text. Swap for a modal/drawer once we know the desired UX.
-        window.alert(reply)
+      const result = await ask(prompt)
+      if (result) {
+        setReply(result)
       } else {
         show('No reply')
       }
@@ -30,15 +32,26 @@ export function AiButton({ label, prompt, variant = 'primary', className = '' })
     }
   }
 
+  // Use the button label as the modal title (stripped of trailing arrows).
+  const cleanTitle = modalTitle ?? (label ?? 'AI suggestion').replace(/[→↑↓←]\s*$/, '').trim()
+
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={loading}
-      className={`${baseClasses} rounded-[var(--border-radius-md)] px-3 py-[5px] text-xs cursor-pointer inline-flex items-center gap-1.5 disabled:opacity-60 disabled:cursor-not-allowed ${className}`}
-    >
-      <Sparkles size={12} />
-      <span>{loading ? 'Thinking…' : label}</span>
-    </button>
+    <>
+      <button
+        type="button"
+        onClick={onClick}
+        disabled={loading}
+        className={`${baseClasses} rounded-[var(--border-radius-md)] px-3 py-[5px] text-xs cursor-pointer inline-flex items-center gap-1.5 disabled:opacity-60 disabled:cursor-not-allowed ${className}`}
+      >
+        <Sparkles size={12} />
+        <span>{loading ? 'Thinking…' : label}</span>
+      </button>
+      <AiReplyModal
+        open={Boolean(reply)}
+        onClose={() => setReply(null)}
+        title={cleanTitle}
+        reply={reply ?? ''}
+      />
+    </>
   )
 }
