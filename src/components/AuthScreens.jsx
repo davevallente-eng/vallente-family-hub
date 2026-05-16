@@ -86,13 +86,8 @@ function ProfilePicker() {
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-black/65 backdrop-blur-sm border border-white/15 rounded-[var(--border-radius-lg)] p-6 shadow-lg">
-        <img
-          src="/logo.png"
-          alt="Vallente Family"
-          className="w-full max-w-[420px] mx-auto mb-2 select-none"
-          draggable={false}
-        />
-        <div className="text-[15px] font-semibold text-[var(--color-text-primary)] text-center">Who's using the Hub?</div>
+        <div className="text-center mb-1 text-[18px] font-semibold tracking-tight text-[var(--color-text-primary)]">Vallente Family Hub</div>
+        <div className="text-[15px] font-medium text-[var(--color-text-primary)] text-center mt-3">Who's using the Hub?</div>
         <p className="text-[13px] text-[var(--color-text-secondary)] mb-4 text-center">Pick your slot. This binds your email to that family member.</p>
 
         <div className="grid grid-cols-2 gap-3">
