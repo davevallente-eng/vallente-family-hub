@@ -45,22 +45,21 @@ You should see `Success. No rows returned.` at the bottom.
 
 ## 5. Configure auth
 
+The app uses **Supabase Anonymous Sign-Ins** — every visitor automatically gets a session without needing email or password. The "who am I" is chosen by tapping a name in the profile picker (stored client-side in localStorage).
+
 1. Left sidebar → **Authentication** → **Providers**
-2. **Email** should already be enabled — leave it on.
-3. **Confirm email** can be turned OFF (it's just the family, magic links are already the gate).
+2. Find **Anonymous Sign-Ins** → toggle **Enable** → **Save**
+3. (Optional, classic email auth can stay off — we don't use it.)
 
-Optional but recommended for a private family app:
+> If you've previously used the magic-link flow, the older policies still work — just run `supabase/migrations/0002_open_to_anon_users.sql` once to switch RLS over to the new model.
 
-4. **Authentication** → **URL Configuration** → set **Site URL** to where the app will live (use `http://localhost:5173` for local dev; add your Vercel URL once deployed).
-
-## 6. Sign in for the first time
+## 6. Use it for the first time
 
 1. Restart the dev server: `npm run dev`
 2. Open `http://localhost:5173`
-3. Type your email, click **Send magic link**
-4. Check your inbox, click the link
-5. You'll land on the profile picker. Click your name (Dave / Krista / David / Kailee) — this **claims** your slot. Only you can sign in to that slot from now on.
-6. Repeat steps 3–5 from each family member's device with their email.
+3. Tap your name on the profile picker (Dave / Krista / David / Kailee)
+4. You're in. The choice is saved on this device — next time you open the URL, you skip straight to the dashboard.
+5. To switch profiles (or sign in as someone else on a shared device): hover/tap the avatar chip in the top-right of the nav → that's also the sign-out.
 
 ## 7. Common issues
 
