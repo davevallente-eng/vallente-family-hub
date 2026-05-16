@@ -3,12 +3,14 @@ import { Card, CardHeader } from '../components/Card'
 import { AiButton } from '../components/AiButton'
 import { useTrips } from '../hooks/useTrips'
 import { useVotes } from '../hooks/useVotes'
+import { useLocation } from '../context/LocationContext'
 
 const TRIP_ICONS = { Mountain, Castle }
 
 export function Trips() {
   const { trips } = useTrips()
   const { votes, cast } = useVotes()
+  const { currentLocation } = useLocation()
   const maxVote = Math.max(1, ...votes.map(v => v.count))
 
   return (
@@ -20,7 +22,7 @@ export function Trips() {
           action={
             <AiButton
               label="Plan new trip →"
-              prompt="Help plan a fun family trip from Fairfield CA. Budget around $2000, family of 4 (parents + two adult kids). Suggest 3 distinct options: destination, length, rough cost breakdown, and one signature thing to do."
+              prompt={`Help plan a fun family trip from ${currentLocation}. Budget around $2000, family of 4 (parents + two adult kids). Suggest 3 distinct options: destination, length, rough cost breakdown, and one signature thing to do.`}
             />
           }
         />
@@ -71,7 +73,7 @@ export function Trips() {
         <AiButton
           variant="secondary"
           label="Add AI suggestions →"
-          prompt="Give 4 fun weekend activity ideas near Windsor CA for the Vallente family. Mix outdoorsy and relaxed. For each: title and one-line why."
+          prompt={`Give 4 fun weekend activity ideas near ${currentLocation} for the Vallente family. Mix outdoorsy and relaxed. For each: title and one-line why.`}
           className="mt-2.5 w-full justify-center"
         />
       </Card>

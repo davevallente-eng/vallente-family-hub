@@ -10,10 +10,10 @@ import {
   PartyPopper,
   FileText,
   Package,
-  Sun,
 } from 'lucide-react'
-import { FAMILY, HOME_LOCATION } from './data/family'
+import { FAMILY } from './data/family'
 import { Avatar } from './components/Avatar'
+import { LocationPicker } from './components/LocationPicker'
 import { useAuth } from './context/AuthContext'
 import { Dashboard } from './pages/Dashboard'
 import { CalendarPage } from './pages/Calendar'
@@ -79,10 +79,7 @@ function TopNav({ tab, setTab, profile, onSignOut }) {
           })}
         </div>
         <div className="flex items-center gap-2 shrink-0">
-          <div className="hidden lg:flex items-center gap-1.5 bg-[var(--color-background-secondary)] border border-[var(--color-border-tertiary)] rounded-full px-3 py-1 text-xs text-[var(--color-text-secondary)] whitespace-nowrap">
-            <Sun size={14} className="text-[var(--color-warning)]" />
-            <span>72° {HOME_LOCATION.split(',')[0]}</span>
-          </div>
+          <LocationPicker />
           <div className="hidden xl:flex items-center gap-1.5">
             {FAMILY.map(m => (
               <Avatar key={m.id} name={m.name} size={26} />

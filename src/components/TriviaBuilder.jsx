@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Brain, Sparkles, ChevronDown, ChevronRight } from 'lucide-react'
 import { useAiChat } from '../hooks/useAiChat'
 import { useShowToast } from '../context/ToastContext'
+import { useLocation } from '../context/LocationContext'
 import { Card, CardHeader, BtnPrimary } from './Card'
 
 const DIFFICULTIES = ['easy', 'medium', 'hard']
@@ -16,13 +17,14 @@ export function TriviaBuilder() {
   const [items, setItems] = useState([])
   const { ask, loading } = useAiChat()
   const show = useShowToast()
+  const { currentLocation } = useLocation()
 
   const generate = async (e) => {
     e.preventDefault()
     if (!topic.trim()) return
     setItems([])
     const prompt = [
-      `Build a trivia round for the Vallente family game night (parents + two adult kids in their 20s, in Fairfield CA).`,
+      `Build a trivia round for the Vallente family game night (parents + two adult kids in their 20s, currently in ${currentLocation}).`,
       ``,
       `Topic: ${topic.trim()}`,
       `Difficulty: ${difficulty}`,

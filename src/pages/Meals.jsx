@@ -3,10 +3,12 @@ import { Card, CardHeader, BtnSm } from '../components/Card'
 import { AiButton } from '../components/AiButton'
 import { CookSpinner } from '../components/CookSpinner'
 import { useGroceries } from '../hooks/useGroceries'
+import { useLocation } from '../context/LocationContext'
 import { SEED_MEALS } from '../data/seed'
 
 export function Meals() {
   const { items, toggle, add } = useGroceries()
+  const { currentLocation } = useLocation()
 
   const onAdd = () => {
     const name = window.prompt('Add grocery item:')
@@ -22,7 +24,7 @@ export function Meals() {
           action={
             <AiButton
               label="AI suggest →"
-              prompt="Suggest a full week of dinner ideas for the Vallente family in Fairfield CA. Mix quick weeknight meals and one fun weekend cook. For each day Mon–Sun, output: day, meal name, one-line description, and who would be the most natural cook (Dave, Krista, David, or Kailee)."
+              prompt={`Suggest a full week of dinner ideas for the Vallente family in ${currentLocation}. Mix quick weeknight meals and one fun weekend cook. For each day Mon–Sun, output: day, meal name, one-line description, and who would be the most natural cook (Dave, Krista, David, or Kailee).`}
             />
           }
         />

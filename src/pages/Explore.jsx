@@ -3,8 +3,8 @@ import { MapPin, Star } from 'lucide-react'
 import { BtnSm, BtnPrimary } from '../components/Card'
 import { AiButton } from '../components/AiButton'
 import { SEED_ACTIVITIES } from '../data/seed'
-import { HOME_LOCATION } from '../data/family'
 import { useShowToast } from '../context/ToastContext'
+import { useLocation } from '../context/LocationContext'
 
 const FILTERS = [
   { id: 'all',     label: 'All' },
@@ -17,6 +17,7 @@ const FILTERS = [
 export function Explore() {
   const [filter, setFilter] = useState('all')
   const show = useShowToast()
+  const { currentLocation, isAway, homeLocation } = useLocation()
 
   const activities = useMemo(() => {
     if (filter === 'all') return SEED_ACTIVITIES
@@ -28,7 +29,7 @@ export function Explore() {
       <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
         <div className="text-[13px] text-[var(--color-text-secondary)] inline-flex items-center gap-1.5">
           <MapPin size={14} />
-          <span>Things to do near {HOME_LOCATION}</span>
+          <span>Things to do near {currentLocation}{isAway ? <span className="text-[var(--color-text-tertiary)]"> · home: {homeLocation.split(',')[0]}</span> : null}</span>
         </div>
         <div className="flex gap-1.5 flex-wrap">
           {FILTERS.map(f =>
@@ -73,8 +74,8 @@ export function Explore() {
       <div className="mt-3 text-center">
         <AiButton
           variant="secondary"
-          label="Find more near Windsor →"
-          prompt="Find more fun things to do this weekend near Fairfield CA for the Vallente family (parents + two adult kids). Suggest hidden gems and local events — wineries, food, outdoor, live music all fair game. Output 5 picks: name, when, where, why it's good."
+          label={`Find more near ${currentLocation.split(',')[0]} →`}
+          prompt={`Find more fun things to do this weekend near ${currentLocation} for the Vallente family (parents + two adult kids${isAway ? ` — they're currently visiting from Fairfield CA` : ''}). Suggest hidden gems and local events — wineries, food, outdoor, live music all fair game. Output 5 picks: name, when, where, why it's good.`}
         />
       </div>
     </div>

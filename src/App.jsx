@@ -1,14 +1,17 @@
 import { AuthProvider, useAuth } from './context/AuthContext'
 import { ToastProvider } from './context/ToastContext'
+import { LocationProvider } from './context/LocationContext'
 import { AuthScreens } from './components/AuthScreens'
 import { AppShell } from './AppShell'
 
 export default function App() {
   return (
     <AuthProvider>
-      <ToastProvider>
-        <Gate />
-      </ToastProvider>
+      <LocationProvider>
+        <ToastProvider>
+          <Gate />
+        </ToastProvider>
+      </LocationProvider>
     </AuthProvider>
   )
 }
