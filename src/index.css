@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+/* Design tokens — mirror the names used in the original prototype so the
+   markup ported from it just works. Light-themed family dashboard. */
+@theme {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+
+  /* Dark transparent "glass" surfaces sit on top of a hero photo background.
+     The inner panel value (white/10) is a subtle lift to differentiate inputs,
+     form panels, and inner stats from the cards they're nested inside. */
+  --color-background-primary: rgba(0, 0, 0, 0.40);
+  --color-background-secondary: rgba(255, 255, 255, 0.10);
+  --color-background-tertiary: transparent;
+
+  /* White / near-white text reads against the dark glass. Tertiary stays
+     muted but light enough to be legible (not gray-on-gray). */
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: rgba(255, 255, 255, 0.86);
+  --color-text-tertiary: rgba(255, 255, 255, 0.65);
+
+  --color-border-secondary: rgba(255, 255, 255, 0.28);
+  --color-border-tertiary: rgba(255, 255, 255, 0.16);
+
+  --color-accent: #378ADD;
+  --color-accent-strong: #185FA5;
+  --color-success: #1D9E75;
+  --color-warning: #BA7517;
+  --color-danger: #D85A30;
+  --color-pink: #D4537E;
+
+  --radius-md: 8px;
+  --radius-lg: 12px;
+}
+
+/* Aliases for the prototype's --border-radius-* var names. */
+:root {
+  --border-radius-md: var(--radius-md);
+  --border-radius-lg: var(--radius-lg);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    color-scheme: light;
+    background-color: var(--color-background-tertiary);
+  }
+
+  body {
+    margin: 0;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-y: none;
+    overflow-x: clip;
+    font-family: var(--font-sans);
+    color: var(--color-text-primary);
+    background-color: var(--color-background-tertiary);
+    /* Stacked backgrounds: a soft dark gradient sits ON TOP of the photo so
+       cards don't have to do all the work for readability. Top-to-bottom
+       darkening adds depth and stops the photo from competing with content. */
+    background-image:
+      linear-gradient(180deg, rgba(0, 0, 0, 0.22) 0%, rgba(0, 0, 0, 0.45) 100%),
+      url('/bg.jpg');
+    background-size: cover, cover;
+    background-position: center top, center 20%;
+    background-repeat: no-repeat, no-repeat;
+    background-attachment: fixed, fixed;
+    /* Subtle dark text-shadow lifts white text off the busy photo. Form
+       controls (white bg, dark text) get it disabled below. */
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  }
+
+  input, textarea, select {
+    text-shadow: none;
+  }
+
+  /* Hide horizontal scrollbar on the tab strip — scrolling still works via
+     trackpad/touch, just no visible bar. */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  button {
+    -webkit-tap-highlight-color: transparent;
+    font-family: inherit;
+  }
+
+  /* Form controls keep their solid white surfaces — explicit dark text so
+     they read against the white field (the global text-primary went white
+     for the glass cards). */
+  input, textarea, select {
+    color: #2C2C2A;
+  }
+  input::placeholder, textarea::placeholder {
+    color: rgba(44, 44, 42, 0.45);
+  }
+
+  /* Stop iOS Safari from auto-zooming when a small-text input is focused */
+  @media (pointer: coarse) {
+    input, textarea, select {
+      font-size: 16px;
+    }
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}
