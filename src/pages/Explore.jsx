@@ -42,6 +42,14 @@ export function Explore() {
         </div>
       </div>
 
+      <div className="mb-3 flex justify-center">
+        <AiButton
+          variant="primary"
+          label={`Find more near ${currentLocation.split(',')[0]} →`}
+          prompt={`Find more fun things to do this weekend near ${currentLocation} for the Vallente family (parents + two adult kids${isAway ? ` — they're currently visiting from Fairfield CA` : ''}). Suggest hidden gems and local events — wineries, food, outdoor, live music all fair game. Output 5 picks: name, when, where, why it's good.`}
+        />
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {activities.map(a => (
           <div key={a.id} className="border border-white/15 rounded-[var(--border-radius-md)] px-3 py-2.5 bg-black/55 shadow-sm">
@@ -69,14 +77,6 @@ export function Explore() {
             </div>
           </div>
         ))}
-      </div>
-
-      <div className="mt-3 text-center">
-        <AiButton
-          variant="secondary"
-          label={`Find more near ${currentLocation.split(',')[0]} →`}
-          prompt={`Find more fun things to do this weekend near ${currentLocation} for the Vallente family (parents + two adult kids${isAway ? ` — they're currently visiting from Fairfield CA` : ''}). Suggest hidden gems and local events — wineries, food, outdoor, live music all fair game. Output 5 picks: name, when, where, why it's good.`}
-        />
       </div>
     </div>
   )
