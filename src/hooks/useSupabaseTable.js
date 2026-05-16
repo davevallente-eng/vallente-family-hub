@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useId, useState } from 'react'
 import { supabase, supabaseEnabled } from '../lib/supabase'
 import { useAuth } from '../context/AuthContext'
 
@@ -23,6 +23,10 @@ export function useSupabaseTable(table, opts = {}) {
   } = opts
 
   const { profile } = useAuth()
+  // useId gives this hook instance a stable unique id, so two consumers of
+  // the same table (e.g. MyWishlistCard + SharedWithMeCard both calling
+  // useWishlist) don't collide on Supabase's channel name registry.
+  const instanceId = useId()
   const [rows, setRows] = useState([])
   const [loaded, setLoaded] = useState(false)
 
@@ -47,7 +51,7 @@ export function useSupabaseTable(table, opts = {}) {
     doFetch()
 
     const channel = supabase
-      .channel(`db-${table}`)
+      .channel(`db-${table}-${instanceId}`)
       .on('postgres_changes', { event: '*', schema: 'public', table }, doFetch)
       .subscribe()
 
@@ -55,7 +59,7 @@ export function useSupabaseTable(table, opts = {}) {
       cancelled = true
       supabase.removeChannel(channel)
     }
-  }, [table, profile, orderBy, ascending, select, mapRow])
+  }, [table, profile, orderBy, ascending, select, mapRow, instanceId])
 
   const insert = useCallback(async (row) => {
     if (!supabaseEnabled) return null
