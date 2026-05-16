@@ -34,12 +34,7 @@ function MagicLinkSignIn() {
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
       <div className="w-full max-w-sm bg-black/65 backdrop-blur-sm border border-white/15 rounded-[var(--border-radius-lg)] p-6 shadow-lg">
-        <img
-          src="/logo.png"
-          alt="Vallente Family"
-          className="w-full max-w-[380px] mx-auto mb-3 select-none"
-          draggable={false}
-        />
+        <div className="text-center mb-1 text-[18px] font-semibold tracking-tight text-[var(--color-text-primary)]">Vallente Family Hub</div>
         <p className="text-[13px] text-[var(--color-text-secondary)] mb-4 text-center">Sign in with your email — we'll send you a magic link.</p>
 
         {!supabaseEnabled ? (
